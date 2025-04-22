@@ -4,7 +4,7 @@ import useYouTubePlayer from "@/hooks/useYouTubePlayer"
 import { useSearchParams } from "next/navigation"
 import { useCallback, useEffect } from "react"
 
-const TEMP_API_ENDPOINT = "http://localhost:8000/api/watch-events/"
+const FASTAPI_ENDPOINT = "http://localhost:8002/api/video-events/"
 
 export default function WatchPage () {
     const searchParams = useSearchParams()
@@ -22,7 +22,7 @@ export default function WatchPage () {
         console.log(video_id, currentPlayerState)
 
         try {
-            const response = await fetch(TEMP_API_ENDPOINT, {
+            const response = await fetch(FASTAPI_ENDPOINT, {
                 method: "POST",
                 headers: headers,
                 body: JSON.stringify({...currentPlayerState, video_id: video_id})
