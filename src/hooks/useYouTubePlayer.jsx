@@ -6,7 +6,7 @@ function getKeyByValue(object, value) {
     return Object.keys(object).find(key => object[key] === value);
   }
 
-const useYouTubePlayer = (videoId, elementId) => {
+const useYouTubePlayer = (videoId, elementId, startTime=200, interval=5000) => {
     const playerElementId = elementId || "video-player"
     const playerRef = useRef(null)
     const [playerState, setPlayerState] = useState({
@@ -36,11 +36,12 @@ const useYouTubePlayer = (videoId, elementId) => {
             width: '640',
             videoId: videoId,
             playerVars: {
-                'playsinline': 1
+                playsinline: 1,
+                start: startTime,
             },
             events: {
-                'onReady': handleOnReady,
-                'onStateChange': handleOnStateChange
+                onReady: handleOnReady,
+                onStateChange: handleOnStateChange
             }
         }
         playerRef.current = new window.YT.Player(playerElementId, videoOptions)
@@ -48,6 +49,18 @@ const useYouTubePlayer = (videoId, elementId) => {
 
 
     }, [videoId])
+
+    useEffect(()=>{
+        const internvalId = setInterval(()=>{
+            console.log("triggering change")
+            handleOnStateChange()
+        }, interval)
+
+        return () => {
+            clearInterval(internvalId)
+        }
+
+    }, [])
 
     const handleOnReady = useCallback((event) => {
         setPlayerState(prevState=>({...prevState, isReady: true}))
@@ -63,7 +76,7 @@ const useYouTubePlayer = (videoId, elementId) => {
             const videoStateValue = playerInfo.playerState
             const videoStateLabel = getKeyByValue(YTPlayerStateObj, videoStateValue)
  
-            console.log(videoData, currentTime, videoStateLabel, videoStateValue)
+            // console.log(videoData, currentTime, videoStateLabel, videoStateValue)
             setPlayerState(prevState => ({
                 ...prevState,
                 videoData: {title: videoData.title},
