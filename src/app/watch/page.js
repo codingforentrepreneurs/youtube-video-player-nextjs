@@ -8,7 +8,7 @@ export default function WatchPage () {
     const searchParams = useSearchParams()
     const {v: video_id } = Object.fromEntries(searchParams)
     const playerElementId = "youtube-player"
-    useYouTubePlayer(video_id, playerElementId)
+    const playerState = useYouTubePlayer(video_id, playerElementId)
     const url = `https://www.youtube.com/embed/${video_id}`
     return <>
     
@@ -21,7 +21,8 @@ export default function WatchPage () {
         </div>
 
 
-    <h1>Watch {video_id}</h1>
+    <h1>{playerState.videoData?.title} - {playerState?.isReady ? "Ready" : "Loading"}</h1>
+    <div>{playerState && JSON.stringify(playerState)}</div>
     
 
   

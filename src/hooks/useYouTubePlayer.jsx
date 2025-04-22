@@ -1,9 +1,23 @@
 "use client"
 
-import { useEffect } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
+
+function getKeyByValue(object, value) {
+    return Object.keys(object).find(key => object[key] === value);
+  }
 
 const useYouTubePlayer = (videoId, elementId) => {
     const playerElementId = elementId || "video-player"
+    const playerRef = useRef(null)
+    const [playerState, setPlayerState] = useState({
+        isReady: false,
+        currentTime: 0,
+        videoData: {
+            title: '',
+        },
+        videoStateLabel: '',
+        videoStateValue: -10,
+    })
     // load the youtube api script
     // embed youtube video player
     // track changes to video
@@ -17,7 +31,6 @@ const useYouTubePlayer = (videoId, elementId) => {
       firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
       window.onYouTubeIframeAPIReady = () => {
-        console.log("YOutube is ready to roll")
         const videoOptions = {
             height: '390',
             width: '640',
@@ -26,18 +39,43 @@ const useYouTubePlayer = (videoId, elementId) => {
                 'playsinline': 1
             },
             events: {
-                'onReady': (event) => {console.log('on ready', event)},
-                'onStateChange': (event) => {console.log('on state change', event)}
+                'onReady': handleOnReady,
+                'onStateChange': handleOnStateChange
             }
         }
-        new window.YT.Player(playerElementId, videoOptions)
+        playerRef.current = new window.YT.Player(playerElementId, videoOptions)
       }
 
 
     }, [videoId])
 
+    const handleOnReady = useCallback((event) => {
+        setPlayerState(prevState=>({...prevState, isReady: true}))
+        handleOnStateChange()
+    }, [])
 
-    return ""
+    const handleOnStateChange = useCallback(
+        () => {
+            const YTPlayerStateObj = window.YT.PlayerState
+            const playerInfo = playerRef.current.playerInfo
+            const videoData = playerRef.current.getVideoData()
+            const currentTime = playerRef.current.getCurrentTime()
+            const videoStateValue = playerInfo.playerState
+            const videoStateLabel = getKeyByValue(YTPlayerStateObj, videoStateValue)
+ 
+            console.log(videoData, currentTime, videoStateLabel, videoStateValue)
+            setPlayerState(prevState => ({
+                ...prevState,
+                videoData: {title: videoData.title},
+                currentTime: currentTime,
+                videoStateLabel: videoStateLabel,
+                videoStateValue: videoStateValue,
+            }))
+        }, 
+    [])
+
+
+    return playerState
 }
 
 export default useYouTubePlayer;
