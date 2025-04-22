@@ -52,7 +52,6 @@ const useYouTubePlayer = (videoId, elementId, startTime=200, interval=5000) => {
 
     useEffect(()=>{
         const internvalId = setInterval(()=>{
-            console.log("triggering change")
             handleOnStateChange()
         }, interval)
 
