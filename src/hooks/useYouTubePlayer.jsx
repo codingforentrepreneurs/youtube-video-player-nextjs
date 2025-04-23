@@ -10,13 +10,11 @@ const useYouTubePlayer = (videoId, elementId, startTime=200, interval=5000) => {
     const playerElementId = elementId || "video-player"
     const playerRef = useRef(null)
     const [playerState, setPlayerState] = useState({
-        isReady: false,
-        currentTime: 0,
-        videoData: {
-            title: '',
-        },
-        videoStateLabel: '',
-        videoStateValue: -10,
+        is_ready: false,
+        current_time: 0,
+        video_title: '',
+        video_state_label: '',
+        video_state_value: -10,
     })
     // load the youtube api script
     // embed youtube video player
@@ -78,10 +76,11 @@ const useYouTubePlayer = (videoId, elementId, startTime=200, interval=5000) => {
             // console.log(videoData, currentTime, videoStateLabel, videoStateValue)
             setPlayerState(prevState => ({
                 ...prevState,
-                videoData: {title: videoData.title},
-                currentTime: currentTime,
-                videoStateLabel: videoStateLabel,
-                videoStateValue: videoStateValue,
+               
+                video_title: videoData.title,
+                current_time: currentTime,
+                video_state_label: videoStateLabel,
+                video_state_value: videoStateValue,
             }))
         }, 
     [])

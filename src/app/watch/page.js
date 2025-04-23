@@ -28,6 +28,7 @@ export default function WatchPage () {
                 body: JSON.stringify({...currentPlayerState, video_id: video_id})
             })
             if (!response.ok) {
+                console.log(await response.text())
                 console.log("error adding data to the backend")
             }
         } catch (error) {
