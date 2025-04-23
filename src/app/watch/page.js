@@ -19,7 +19,7 @@ export default function WatchPage () {
 
     const updateBackend = useCallback(async (currentPlayerState) => {
         const headers = {'Content-Type': 'application/json'}
-        console.log(video_id, currentPlayerState)
+        // console.log(video_id, currentPlayerState)
 
         try {
             const response = await fetch(FASTAPI_ENDPOINT, {
@@ -30,6 +30,9 @@ export default function WatchPage () {
             if (!response.ok) {
                 console.log(await response.text())
                 console.log("error adding data to the backend")
+            } else {
+                const responseData = await response.json()
+                console.log("db data is", responseData)
             }
         } catch (error) {
             console.log(error)
