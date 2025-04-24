@@ -10,7 +10,7 @@ const FASTAPI_ENDPOINT = "http://localhost:8002/api/video-events/"
 export default function WatchPage () {
     const searchParams = useSearchParams()
     const {v: video_id, t:startTime } = Object.fromEntries(searchParams)
-    const sessionId = useWatchSession(video_id)
+    const session_id = useWatchSession(video_id)
     console.log('sessionId', sessionId)
     const playerElementId = "youtube-player"
     const playerState = useYouTubePlayer(video_id, playerElementId, startTime, 1500)
@@ -21,7 +21,7 @@ export default function WatchPage () {
     // useEffect
 
     const updateBackend = useCallback(async (currentPlayerState) => {
-        const headers = {'Content-Type': 'application/json'}
+        const headers = {'Content-Type': 'application/json', 'X-Session-ID': session_id}
         // console.log(video_id, currentPlayerState)
 
         try {
@@ -42,7 +42,7 @@ export default function WatchPage () {
         }
 
         
-    }, [video_id])
+    }, [video_id, session_id])
     
 
     useEffect(()=>{
