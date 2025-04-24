@@ -1,5 +1,6 @@
 "use client"
 
+import useWatchSession from "@/hooks/useWatchSession"
 import useYouTubePlayer from "@/hooks/useYouTubePlayer"
 import { useSearchParams } from "next/navigation"
 import { useCallback, useEffect } from "react"
@@ -9,6 +10,8 @@ const FASTAPI_ENDPOINT = "http://localhost:8002/api/video-events/"
 export default function WatchPage () {
     const searchParams = useSearchParams()
     const {v: video_id, t:startTime } = Object.fromEntries(searchParams)
+    const sessionId = useWatchSession(video_id)
+    console.log('sessionId', sessionId)
     const playerElementId = "youtube-player"
     const playerState = useYouTubePlayer(video_id, playerElementId, startTime, 1500)
     const url = `https://www.youtube.com/embed/${video_id}`
