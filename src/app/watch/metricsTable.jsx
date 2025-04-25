@@ -43,16 +43,16 @@ export default function MetricsTable ({videoId}) {
         <tbody className="divide-y divide-gray-200">
             {data.map((val, idx)=>(<tr className="hover:bg-gray-50" key={idx}>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                    {new Date(val.time).toLocaleDateString()}
+                    {new Date(val.time).toString()}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {val.total_events}
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {(val.max_viewership / 1000).toFixed(2)}s
+                {(val.max_viewership / 60).toFixed(2)}m
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                {(val.avg_viewership / 1000).toFixed(2)}s
+                {(val.avg_viewership / 60).toFixed(2)}m
                 </td>
                 <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
                     {val.unique_views}

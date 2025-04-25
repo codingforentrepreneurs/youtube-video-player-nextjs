@@ -69,7 +69,7 @@ const useYouTubePlayer = (videoId, elementId, startTime=200, interval=5000) => {
             const YTPlayerStateObj = window.YT.PlayerState
             const playerInfo = playerRef.current.playerInfo
             const videoData = playerRef.current.getVideoData()
-            const currentTime = playerRef.current.getCurrentTime()
+            const currentTimeSeconds = playerRef.current.getCurrentTime()
             const videoStateValue = playerInfo.playerState
             const videoStateLabel = getKeyByValue(YTPlayerStateObj, videoStateValue)
  
@@ -78,7 +78,7 @@ const useYouTubePlayer = (videoId, elementId, startTime=200, interval=5000) => {
                 ...prevState,
                
                 video_title: videoData.title,
-                current_time: currentTime,
+                current_time: currentTimeSeconds,
                 video_state_label: videoStateLabel,
                 video_state_value: videoStateValue,
             }))

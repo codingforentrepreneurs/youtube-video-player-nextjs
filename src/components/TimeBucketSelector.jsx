@@ -1,7 +1,6 @@
 export default function TimeBucketSelector({ bucket, setBucket, bucketUnit, setBucketUnit }) {
     // Define bucket unit options with separate label and value
     const bucketUnitOptions = [
-        { value: "seconds", label: "Seconds" },
         { value: "minutes", label: "Minutes" },
         { value: "hours", label: "Hours" },
         { value: "days", label: "Days" },
