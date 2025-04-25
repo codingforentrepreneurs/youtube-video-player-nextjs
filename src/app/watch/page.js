@@ -4,6 +4,7 @@ import useWatchSession from "@/hooks/useWatchSession"
 import useYouTubePlayer from "@/hooks/useYouTubePlayer"
 import { useSearchParams } from "next/navigation"
 import { useCallback, useEffect } from "react"
+import MetricsTable from "./metricsTable"
 
 const FASTAPI_ENDPOINT = "http://localhost:8002/api/video-events/"
 
@@ -65,8 +66,10 @@ export default function WatchPage () {
         
 
 
-    <h1>{playerState.videoData?.title} - {playerState?.isReady ? "Ready" : "Loading"}</h1>
-    <div>{playerState && JSON.stringify(playerState)}</div>
+    <h1 className='text-xl'>{playerState.video_title}</h1>
+   
+
+    <MetricsTable videoId={video_id} />
     </div>
     
 
