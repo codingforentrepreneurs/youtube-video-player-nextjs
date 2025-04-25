@@ -14,11 +14,11 @@ export default function useWatchSession (video_id) {
             const response = await fetch(FASTAPI_ENDPOINT, {
                 method: "POST",
                 headers: headers,
-                body: JSON.stringify({video_id: video_id})
+                body: JSON.stringify({video_id: video_id ? video_id : ''})
             })
             if (!response.ok) {
                 console.log(await response.text())
-                console.log("error adding data to the backend")
+                console.log("error with watch session")
             } else {
                 const responseData = await response.json()
                 sessionStorage.setItem(API_WATCH_SESSION_STORAGE_KEY, JSON.stringify(responseData))
